@@ -1,0 +1,790 @@
+{
+  "/Users/saurabhjaswal/Desktop/sls-ts-swagger": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.7",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "opt": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "service": "sls-ts-swagger",
+            "provider": {
+              "name": "aws",
+              "runtime": "nodejs18.x",
+              "stage": "dev",
+              "region": "us-east-1",
+              "versionFunctions": true,
+              "compiledCloudFormationTemplate": {
+                "AWSTemplateFormatVersion": "2010-09-09",
+                "Description": "The AWS CloudFormation template for this Serverless application",
+                "Resources": {
+                  "SwaggerBucket": {
+                    "Type": "AWS::S3::Bucket",
+                    "Properties": {
+                      "BucketName": "sls-ts-swagger-dev-docs",
+                      "PublicAccessBlockConfiguration": {
+                        "BlockPublicAcls": false,
+                        "BlockPublicPolicy": false,
+                        "IgnorePublicAcls": false,
+                        "RestrictPublicBuckets": false
+                      },
+                      "OwnershipControls": {
+                        "Rules": [
+                          {
+                            "ObjectOwnership": "ObjectWriter"
+                          }
+                        ]
+                      },
+                      "WebsiteConfiguration": {
+                        "IndexDocument": "index.html",
+                        "ErrorDocument": "index.html"
+                      },
+                      "CorsConfiguration": {
+                        "CorsRules": [
+                          {
+                            "AllowedHeaders": [
+                              "*"
+                            ],
+                            "AllowedMethods": [
+                              "GET"
+                            ],
+                            "AllowedOrigins": [
+                              "*"
+                            ],
+                            "MaxAge": 3000
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "SwaggerBucketPolicy": {
+                    "Type": "AWS::S3::BucketPolicy",
+                    "Properties": {
+                      "Bucket": {
+                        "Ref": "SwaggerBucket"
+                      },
+                      "PolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Sid": "PublicReadGetObject",
+                            "Effect": "Allow",
+                            "Principal": "*",
+                            "Action": [
+                              "s3:GetObject"
+                            ],
+                            "Resource": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  {
+                                    "Fn::GetAtt": [
+                                      "SwaggerBucket",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "/*"
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "Outputs": {
+                  "ServerlessDeploymentBucketName": {
+                    "Value": "serverless-framework-deployments-us-east-1-51f5bdfb-dde6",
+                    "Export": {
+                      "Name": "sls-sls-ts-swagger-dev-ServerlessDeploymentBucketName"
+                    }
+                  },
+                  "WebsiteURL": {
+                    "Description": "URL for the S3 hosted Swagger docs",
+                    "Value": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "http://",
+                          {
+                            "Ref": "SwaggerBucket"
+                          },
+                          ".s3-website-",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          ".amazonaws.com"
+                        ]
+                      ]
+                    }
+                  },
+                  "BucketName": {
+                    "Description": "S3 Bucket Name",
+                    "Value": {
+                      "Ref": "SwaggerBucket"
+                    }
+                  }
+                }
+              }
+            },
+            "resources": {
+              "Resources": {
+                "SwaggerBucket": {
+                  "Type": "AWS::S3::Bucket",
+                  "Properties": {
+                    "BucketName": "sls-ts-swagger-dev-docs",
+                    "PublicAccessBlockConfiguration": {
+                      "BlockPublicAcls": false,
+                      "BlockPublicPolicy": false,
+                      "IgnorePublicAcls": false,
+                      "RestrictPublicBuckets": false
+                    },
+                    "OwnershipControls": {
+                      "Rules": [
+                        {
+                          "ObjectOwnership": "ObjectWriter"
+                        }
+                      ]
+                    },
+                    "WebsiteConfiguration": {
+                      "IndexDocument": "index.html",
+                      "ErrorDocument": "index.html"
+                    },
+                    "CorsConfiguration": {
+                      "CorsRules": [
+                        {
+                          "AllowedHeaders": [
+                            "*"
+                          ],
+                          "AllowedMethods": [
+                            "GET"
+                          ],
+                          "AllowedOrigins": [
+                            "*"
+                          ],
+                          "MaxAge": 3000
+                        }
+                      ]
+                    }
+                  }
+                },
+                "SwaggerBucketPolicy": {
+                  "Type": "AWS::S3::BucketPolicy",
+                  "Properties": {
+                    "Bucket": {
+                      "Ref": "SwaggerBucket"
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Sid": "PublicReadGetObject",
+                          "Effect": "Allow",
+                          "Principal": "*",
+                          "Action": [
+                            "s3:GetObject"
+                          ],
+                          "Resource": {
+                            "Fn::Join": [
+                              "",
+                              [
+                                {
+                                  "Fn::GetAtt": [
+                                    "SwaggerBucket",
+                                    "Arn"
+                                  ]
+                                },
+                                "/*"
+                              ]
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "Outputs": {
+                "WebsiteURL": {
+                  "Description": "URL for the S3 hosted Swagger docs",
+                  "Value": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "http://",
+                        {
+                          "Ref": "SwaggerBucket"
+                        },
+                        ".s3-website-",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ".amazonaws.com"
+                      ]
+                    ]
+                  }
+                },
+                "BucketName": {
+                  "Description": "S3 Bucket Name",
+                  "Value": {
+                    "Ref": "SwaggerBucket"
+                  }
+                }
+              }
+            }
+          },
+          "configFileDirPath": "/Users/saurabhjaswal/Desktop/sls-ts-swagger",
+          "config": {
+            "type": "opt"
+          },
+          "options": {},
+          "logger": {
+            "namespace": "s:core:resolver:opt",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      },
+      "default-aws-credential-resolver": "<REDACTED>",
+      "self": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "service": "sls-ts-swagger",
+            "provider": {
+              "name": "aws",
+              "runtime": "nodejs18.x",
+              "stage": "dev",
+              "region": "us-east-1",
+              "versionFunctions": true,
+              "compiledCloudFormationTemplate": {
+                "AWSTemplateFormatVersion": "2010-09-09",
+                "Description": "The AWS CloudFormation template for this Serverless application",
+                "Resources": {
+                  "SwaggerBucket": {
+                    "Type": "AWS::S3::Bucket",
+                    "Properties": {
+                      "BucketName": "sls-ts-swagger-dev-docs",
+                      "PublicAccessBlockConfiguration": {
+                        "BlockPublicAcls": false,
+                        "BlockPublicPolicy": false,
+                        "IgnorePublicAcls": false,
+                        "RestrictPublicBuckets": false
+                      },
+                      "OwnershipControls": {
+                        "Rules": [
+                          {
+                            "ObjectOwnership": "ObjectWriter"
+                          }
+                        ]
+                      },
+                      "WebsiteConfiguration": {
+                        "IndexDocument": "index.html",
+                        "ErrorDocument": "index.html"
+                      },
+                      "CorsConfiguration": {
+                        "CorsRules": [
+                          {
+                            "AllowedHeaders": [
+                              "*"
+                            ],
+                            "AllowedMethods": [
+                              "GET"
+                            ],
+                            "AllowedOrigins": [
+                              "*"
+                            ],
+                            "MaxAge": 3000
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "SwaggerBucketPolicy": {
+                    "Type": "AWS::S3::BucketPolicy",
+                    "Properties": {
+                      "Bucket": {
+                        "Ref": "SwaggerBucket"
+                      },
+                      "PolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Sid": "PublicReadGetObject",
+                            "Effect": "Allow",
+                            "Principal": "*",
+                            "Action": [
+                              "s3:GetObject"
+                            ],
+                            "Resource": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  {
+                                    "Fn::GetAtt": [
+                                      "SwaggerBucket",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "/*"
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "Outputs": {
+                  "ServerlessDeploymentBucketName": {
+                    "Value": "serverless-framework-deployments-us-east-1-51f5bdfb-dde6",
+                    "Export": {
+                      "Name": "sls-sls-ts-swagger-dev-ServerlessDeploymentBucketName"
+                    }
+                  },
+                  "WebsiteURL": {
+                    "Description": "URL for the S3 hosted Swagger docs",
+                    "Value": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "http://",
+                          {
+                            "Ref": "SwaggerBucket"
+                          },
+                          ".s3-website-",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          ".amazonaws.com"
+                        ]
+                      ]
+                    }
+                  },
+                  "BucketName": {
+                    "Description": "S3 Bucket Name",
+                    "Value": {
+                      "Ref": "SwaggerBucket"
+                    }
+                  }
+                }
+              }
+            },
+            "resources": {
+              "Resources": {
+                "SwaggerBucket": {
+                  "Type": "AWS::S3::Bucket",
+                  "Properties": {
+                    "BucketName": "sls-ts-swagger-dev-docs",
+                    "PublicAccessBlockConfiguration": {
+                      "BlockPublicAcls": false,
+                      "BlockPublicPolicy": false,
+                      "IgnorePublicAcls": false,
+                      "RestrictPublicBuckets": false
+                    },
+                    "OwnershipControls": {
+                      "Rules": [
+                        {
+                          "ObjectOwnership": "ObjectWriter"
+                        }
+                      ]
+                    },
+                    "WebsiteConfiguration": {
+                      "IndexDocument": "index.html",
+                      "ErrorDocument": "index.html"
+                    },
+                    "CorsConfiguration": {
+                      "CorsRules": [
+                        {
+                          "AllowedHeaders": [
+                            "*"
+                          ],
+                          "AllowedMethods": [
+                            "GET"
+                          ],
+                          "AllowedOrigins": [
+                            "*"
+                          ],
+                          "MaxAge": 3000
+                        }
+                      ]
+                    }
+                  }
+                },
+                "SwaggerBucketPolicy": {
+                  "Type": "AWS::S3::BucketPolicy",
+                  "Properties": {
+                    "Bucket": {
+                      "Ref": "SwaggerBucket"
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Sid": "PublicReadGetObject",
+                          "Effect": "Allow",
+                          "Principal": "*",
+                          "Action": [
+                            "s3:GetObject"
+                          ],
+                          "Resource": {
+                            "Fn::Join": [
+                              "",
+                              [
+                                {
+                                  "Fn::GetAtt": [
+                                    "SwaggerBucket",
+                                    "Arn"
+                                  ]
+                                },
+                                "/*"
+                              ]
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "Outputs": {
+                "WebsiteURL": {
+                  "Description": "URL for the S3 hosted Swagger docs",
+                  "Value": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "http://",
+                        {
+                          "Ref": "SwaggerBucket"
+                        },
+                        ".s3-website-",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ".amazonaws.com"
+                      ]
+                    ]
+                  }
+                },
+                "BucketName": {
+                  "Description": "S3 Bucket Name",
+                  "Value": {
+                    "Ref": "SwaggerBucket"
+                  }
+                }
+              }
+            }
+          },
+          "configFileDirPath": "/Users/saurabhjaswal/Desktop/sls-ts-swagger",
+          "config": {
+            "type": "self"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null,
+          "logger": {
+            "namespace": "s:core:resolver:self",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      }
+    },
+    "composeServiceName": null,
+    "servicePath": "/Users/saurabhjaswal/Desktop/sls-ts-swagger",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "sls-ts-swagger",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs18.x",
+        "stage": "dev",
+        "region": "us-east-1",
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "SwaggerBucket": {
+              "Type": "AWS::S3::Bucket",
+              "Properties": {
+                "BucketName": "sls-ts-swagger-dev-docs",
+                "PublicAccessBlockConfiguration": {
+                  "BlockPublicAcls": false,
+                  "BlockPublicPolicy": false,
+                  "IgnorePublicAcls": false,
+                  "RestrictPublicBuckets": false
+                },
+                "OwnershipControls": {
+                  "Rules": [
+                    {
+                      "ObjectOwnership": "ObjectWriter"
+                    }
+                  ]
+                },
+                "WebsiteConfiguration": {
+                  "IndexDocument": "index.html",
+                  "ErrorDocument": "index.html"
+                },
+                "CorsConfiguration": {
+                  "CorsRules": [
+                    {
+                      "AllowedHeaders": [
+                        "*"
+                      ],
+                      "AllowedMethods": [
+                        "GET"
+                      ],
+                      "AllowedOrigins": [
+                        "*"
+                      ],
+                      "MaxAge": 3000
+                    }
+                  ]
+                }
+              }
+            },
+            "SwaggerBucketPolicy": {
+              "Type": "AWS::S3::BucketPolicy",
+              "Properties": {
+                "Bucket": {
+                  "Ref": "SwaggerBucket"
+                },
+                "PolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Sid": "PublicReadGetObject",
+                      "Effect": "Allow",
+                      "Principal": "*",
+                      "Action": [
+                        "s3:GetObject"
+                      ],
+                      "Resource": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::GetAtt": [
+                                "SwaggerBucket",
+                                "Arn"
+                              ]
+                            },
+                            "/*"
+                          ]
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-51f5bdfb-dde6",
+              "Export": {
+                "Name": "sls-sls-ts-swagger-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "WebsiteURL": {
+              "Description": "URL for the S3 hosted Swagger docs",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "http://",
+                    {
+                      "Ref": "SwaggerBucket"
+                    },
+                    ".s3-website-",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".amazonaws.com"
+                  ]
+                ]
+              }
+            },
+            "BucketName": {
+              "Description": "S3 Bucket Name",
+              "Value": {
+                "Ref": "SwaggerBucket"
+              }
+            }
+          }
+        }
+      },
+      "resources": {
+        "Resources": {
+          "SwaggerBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketName": "sls-ts-swagger-dev-docs",
+              "PublicAccessBlockConfiguration": {
+                "BlockPublicAcls": false,
+                "BlockPublicPolicy": false,
+                "IgnorePublicAcls": false,
+                "RestrictPublicBuckets": false
+              },
+              "OwnershipControls": {
+                "Rules": [
+                  {
+                    "ObjectOwnership": "ObjectWriter"
+                  }
+                ]
+              },
+              "WebsiteConfiguration": {
+                "IndexDocument": "index.html",
+                "ErrorDocument": "index.html"
+              },
+              "CorsConfiguration": {
+                "CorsRules": [
+                  {
+                    "AllowedHeaders": [
+                      "*"
+                    ],
+                    "AllowedMethods": [
+                      "GET"
+                    ],
+                    "AllowedOrigins": [
+                      "*"
+                    ],
+                    "MaxAge": 3000
+                  }
+                ]
+              }
+            }
+          },
+          "SwaggerBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "SwaggerBucket"
+              },
+              "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Sid": "PublicReadGetObject",
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Action": [
+                      "s3:GetObject"
+                    ],
+                    "Resource": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Fn::GetAtt": [
+                              "SwaggerBucket",
+                              "Arn"
+                            ]
+                          },
+                          "/*"
+                        ]
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "WebsiteURL": {
+            "Description": "URL for the S3 hosted Swagger docs",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "http://",
+                  {
+                    "Ref": "SwaggerBucket"
+                  },
+                  ".s3-website-",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".amazonaws.com"
+                ]
+              ]
+            }
+          },
+          "BucketName": {
+            "Description": "S3 Bucket Name",
+            "Value": {
+              "Ref": "SwaggerBucket"
+            }
+          }
+        }
+      }
+    },
+    "serviceRawFile": "service: sls-ts-swagger\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  stage: ${opt:stage, 'dev'}\n  region: ${opt:region, 'us-east-1'}\n\nresources:\n  Resources:\n    SwaggerBucket:\n      Type: AWS::S3::Bucket\n      Properties:\n        BucketName: ${self:service}-${self:provider.stage}-docs\n        PublicAccessBlockConfiguration:\n          BlockPublicAcls: false\n          BlockPublicPolicy: false\n          IgnorePublicAcls: false\n          RestrictPublicBuckets: false\n        OwnershipControls:\n          Rules:\n            - ObjectOwnership: ObjectWriter\n        WebsiteConfiguration:\n          IndexDocument: index.html\n          ErrorDocument: index.html\n        CorsConfiguration:\n          CorsRules:\n            - AllowedHeaders: [\"*\"]\n              AllowedMethods: [GET]\n              AllowedOrigins: [\"*\"]\n              MaxAge: 3000\n\n    SwaggerBucketPolicy:\n      Type: AWS::S3::BucketPolicy\n      Properties:\n        Bucket: !Ref SwaggerBucket\n        PolicyDocument:\n          Version: \"2012-10-17\"\n          Statement:\n            - Sid: PublicReadGetObject\n              Effect: Allow\n              Principal: \"*\"\n              Action:\n                - s3:GetObject\n              Resource: !Join [\"\", [!GetAtt SwaggerBucket.Arn, \"/*\"]]\n\n  Outputs:\n    WebsiteURL:\n      Description: \"URL for the S3 hosted Swagger docs\"\n      Value:\n        !Join [\n          \"\",\n          [\n            \"http://\",\n            !Ref SwaggerBucket,\n            \".s3-website-\",\n            !Ref \"AWS::Region\",\n            \".amazonaws.com\",\n          ],\n        ]\n    BucketName:\n      Description: \"S3 Bucket Name\"\n      Value: !Ref SwaggerBucket\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "error": null,
+    "params": {},
+    "machineId": "44e7d315604966bbcc1283f8ff9e87d2",
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "a2fabe4b-e8eb-491d-be32-8ff16452ef51",
+    "orgName": "devghost",
+    "userId": "pGCbYr7yP2PS790MT6",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "devghost",
+    "subscription": null,
+    "userEmail": "sgtghost786@gmail.com",
+    "serviceProviderAwsRegion": "us-east-1",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "734584477105",
+    "projectType": "traditional",
+    "versionSf": "4.4.7",
+    "serviceProviderAwsCfStackName": "sls-ts-swagger-dev",
+    "integrations": {},
+    "serviceUniqueId": "arn:aws:cloudformation:us-east-1:734584477105:stack/sls-ts-swagger-dev/31ba9470-9105-11ef-b873-0afffd189055",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:734584477105:stack/sls-ts-swagger-dev/31ba9470-9105-11ef-b873-0afffd189055",
+    "serviceProviderAwsCfStackCreated": "2024-10-23T06:08:16.812Z",
+    "serviceProviderAwsCfStackUpdated": "2024-10-23T06:27:53.878Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "BucketName",
+        "OutputValue": "sls-ts-swagger-dev-docs",
+        "Description": "S3 Bucket Name"
+      },
+      {
+        "OutputKey": "WebsiteURL",
+        "OutputValue": "http://sls-ts-swagger-dev-docs.s3-website-us-east-1.amazonaws.com",
+        "Description": "URL for the S3 hosted Swagger docs"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-51f5bdfb-dde6",
+        "ExportName": "sls-sls-ts-swagger-dev-ServerlessDeploymentBucketName"
+      }
+    ]
+  }
+}

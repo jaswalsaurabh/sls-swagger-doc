@@ -1,0 +1,113 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "SwaggerBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "sls-ts-swagger-dev-docs",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": false,
+          "BlockPublicPolicy": false,
+          "IgnorePublicAcls": false,
+          "RestrictPublicBuckets": false
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "ObjectWriter"
+            }
+          ]
+        },
+        "WebsiteConfiguration": {
+          "IndexDocument": "index.html",
+          "ErrorDocument": "index.html"
+        },
+        "CorsConfiguration": {
+          "CorsRules": [
+            {
+              "AllowedHeaders": [
+                "*"
+              ],
+              "AllowedMethods": [
+                "GET"
+              ],
+              "AllowedOrigins": [
+                "*"
+              ],
+              "MaxAge": 3000
+            }
+          ]
+        }
+      }
+    },
+    "SwaggerBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "SwaggerBucket"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "PublicReadGetObject",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": [
+                "s3:GetObject"
+              ],
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "SwaggerBucket",
+                        "Arn"
+                      ]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": "serverless-framework-deployments-us-east-1-51f5bdfb-dde6",
+      "Export": {
+        "Name": "sls-sls-ts-swagger-dev-ServerlessDeploymentBucketName"
+      }
+    },
+    "WebsiteURL": {
+      "Description": "URL for the S3 hosted Swagger docs",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "http://",
+            {
+              "Ref": "SwaggerBucket"
+            },
+            ".s3-website-",
+            {
+              "Ref": "AWS::Region"
+            },
+            ".amazonaws.com"
+          ]
+        ]
+      }
+    },
+    "BucketName": {
+      "Description": "S3 Bucket Name",
+      "Value": {
+        "Ref": "SwaggerBucket"
+      }
+    }
+  }
+}

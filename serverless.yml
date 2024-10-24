@@ -1,0 +1,63 @@
+service: sls-ts-swagger
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+resources:
+  Resources:
+    SwaggerBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-${self:provider.stage}-docs
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: ObjectWriter
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: index.html
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders: ["*"]
+              AllowedMethods: [GET]
+              AllowedOrigins: ["*"]
+              MaxAge: 3000
+
+    SwaggerBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref SwaggerBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+                - s3:GetObject
+              Resource: !Join ["", [!GetAtt SwaggerBucket.Arn, "/*"]]
+
+  Outputs:
+    WebsiteURL:
+      Description: "URL for the S3 hosted Swagger docs"
+      Value:
+        !Join [
+          "",
+          [
+            "http://",
+            !Ref SwaggerBucket,
+            ".s3-website-",
+            !Ref "AWS::Region",
+            ".amazonaws.com",
+          ],
+        ]
+    BucketName:
+      Description: "S3 Bucket Name"
+      Value: !Ref SwaggerBucket
